@@ -1,0 +1,99 @@
+<html>
+ <head><title>My Movies</title></head>
+ <body>
+ 
+  <h1> My Movies - A Simple Java Swing Application</h1>
+ 
+  <h2>Points to Note</h2>  
+
+  <b>JDK 1.7 is used</b><br>
+  No tools or jars other than the JDK are used. 
+
+  <P><b>This javadoc links to the source code</b><br>
+ The javadoc tool has <tt>-linksource</tt> option which implements this. The links are under class and method names.
+ 
+  <P><b>No Unit Tests Included</b><br>
+  There are no JUnit tests included. However, many applications would benefit 
+  from using JUnit test classes - especially for the Model Objects 
+  (eg <tt>{@link hirondelle.movies.edit.Movie}</tt>).
+  
+<P><b>Don't use <tt>extends</tt> unless you have to</b><br>
+ <em>A dialog does not have to extend JDialog.</em> 
+ Instead, you can almost always use a JDialog as a <em>field</em>, not as a superclass. 
+  The reasons for doing so include :
+  <ul>
+   <li>it's never necessary
+   <li>there is only 1 superclass - maybe it could be used for some other purpose
+   <li>it greatly simplifies the javadoc of a class, by excluding many items which are often irrelevant
+  </ul>
+  If desired, a <tt>getDialog()</tt> method can always be added to allow the caller access to the underlying dialog object.
+  This technique is used by the <tt>{@link hirondelle.movies.util.ui.StandardDialog}</tt> class.
+  
+<P>  <b>Default scope</b><br>
+  The default scope for classes is package-private. 
+  Scope is increased to <tt>public</tt> only when needed.
+  
+ <P> <b>Final is preferred</b><br>
+  Classes that aren't designed explicitly for overriding (the great majority of classes) are declared <tt>final</tt>.
+  
+<P><b>Dialog policies are centralized</b><br>
+The <tt>{@link hirondelle.movies.util.ui.StandardDialog}</tt> class centralizes a number of policies for dialogs. 
+This both reduces code repetition, and helps give your app a uniform look. The <tt>StandardDialog</tt> class 
+is an example of the <a href='http://www.javapractices.com/topic/TopicAction.do?Id=164'>Template Method</a> design pattern.
+
+<P><b>Package-by-Feature is used</b><br>
+All items related to a single feature are placed in single directory/package devoted exclusively to that feature.
+
+<P><b>Custom Exception Handler</b><br>
+The <tt>{@link hirondelle.movies.exception.ExceptionHandler}</tt> class customizes how Java behaves when a <tt>RuntimeException</tt> occurs.
+
+<P><b>Invalid User Input</b><br>
+When user input is found to be invalid, a checked exception named 
+<tt>{@link hirondelle.movies.exception.InvalidInputException}</tt> is thrown by a Model Object constructor (for example, 
+see {@link hirondelle.movies.edit.Movie}).
+
+<P><b>Logging</b><br>
+This app uses JDK Logging. The app logs to a file in the application's home directory. The logging is set up in 
+{@link hirondelle.movies.LaunchApplication}.
+
+<P><b>Font</b><br>
+The app uses a custom font for all components.
+
+<P><b>Relations between classes in the same feature</b><br>
+This app shows two styles for "wiring" classes together.
+
+<P>In the Login feature, the Controller comes first:
+<PRE>{@link hirondelle.movies.LaunchApplication}
+  -> {@link hirondelle.movies.login.LoginController} 
+    -> {@link hirondelle.movies.login.LoginView} (dialog)</PRE>
+
+<P>In the case of the Edit Movie feature, the Controller is called later:
+<PRE>{@link hirondelle.movies.main.MainWindow}
+  -> {@link hirondelle.movies.edit.MovieActionAdd} (simple Swing Action)
+    -> {@link hirondelle.movies.edit.MovieView} (dialog)
+      -> {@link hirondelle.movies.edit.MovieController}
+        -> {@link hirondelle.movies.edit.Movie} (model) 
+        -> {@link hirondelle.movies.edit.MovieDAO} (data access)</PRE>
+
+
+<P><b>Coding Conventions</b><br>
+<ul>
+ <li>fields start with 'f' : <tt>fBlah</tt>
+ <li>arguments start with 'a' : <tt>aBlah</tt>
+ <li>local variables have no prefix : <tt>blah</tt>
+ <li>class members appear in the order of "largest scope first". Private members are always placed last.
+ <li>no tab characters appear in the  source code (they render poorly in many tools)
+ <li>fields are never explicitly initialized to default values (since it's redundant)
+</ul>
+
+<P><b>Short Methods</b><br>
+Most methods are quite short. This significantly improves maintainability. Even one-line methods are used, 
+wherever it increases clarity for the maintainer. 
+ 
+<P><b>Table Sorting</b><br>
+The {@link hirondelle.movies.main.MainWindow} contains a table. Clicking 
+on a table column header resorts the table, ascending and descending.
+
+  
+ </body>
+</html>
